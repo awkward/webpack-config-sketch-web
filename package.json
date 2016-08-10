@@ -1,5 +1,5 @@
 {
-  "name": "webpack-config-sketch-web",
+  "name": "@awkward/webpack-config-sketch-web",
   "version": "0.0.6",
   "description": "",
   "main": "index.js",

@@ -1,6 +1,7 @@
 import path from 'path'
 import autoprefixer from 'autoprefixer'
 import inlineSvg from 'postcss-inline-svg'
+import Config from 'webpack-config'
 
 // Paths
 
@@ -15,18 +16,7 @@ const scssTest = /\.scss$/
 const cssTest = /\.css$/
 const jsTest = /\.js$/
 
-const config = {
-  context: cwd,
-  entry: {
-    main: './src'
-  },
-  resolve: {
-    root: [srcDir, nodeModulesDir]
-  },
-  output: {
-    path: path.join(cwd, 'build'),
-    filename: 'bundle.js'
-  },
+export const jsConfig = new Config().merge({
   module: {
     loaders: [
       {
@@ -37,7 +27,14 @@ const config = {
         query: {
           presets: ['es2015', 'react', 'stage-0']
         }
-      },
+      }
+    ]
+  }
+})
+
+export const cssConfig = new Config().merge({
+  module: {
+    loaders: [
       {
         test: cssTest,
         include: srcDir,
@@ -53,6 +50,20 @@ const config = {
   postcss () {
     return [autoprefixer, inlineSvg]
   }
-}
+})
 
-export default config
+export const baseConfig = new Config().merge({
+  context: cwd,
+  entry: {
+    main: './src'
+  },
+  resolve: {
+    root: [srcDir, nodeModulesDir]
+  },
+  output: {
+    path: path.join(cwd, 'build'),
+    filename: 'bundle.js'
+  }
+}, jsConfig, cssConfig)
+
+export default baseConfig

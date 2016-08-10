@@ -1,5 +1,5 @@
-import base from './base.config'
+import * as baseConfig from './base.config'
 
 export default {
-  base
+  baseConfig
 }

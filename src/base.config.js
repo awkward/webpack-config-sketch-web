@@ -52,7 +52,38 @@ export const cssConfig = new Config().merge({
   }
 })
 
-export const baseConfig = new Config().merge({
+export const imagesConfig = new Config().merge({
+  module: {
+    loaders: [
+      {
+        test: /\.svg/,
+        loader: 'svg-inline?classPrefix!image-webpack'
+      },
+      {
+        test: /\.png/,
+        loader: 'url?limit=100000&minetype=image/png!image-webpack'
+      },
+      {
+        test: /\.jpg/,
+        loader: 'file!image-webpack'
+      }
+    ]
+  },
+  imageWebpackLoader: {
+    svgo: {
+      plugins: [
+        {
+          removeViewBox: false
+        },
+        {
+          removeEmptyAttrs: false
+        }
+      ]
+    }
+  }
+})
+
+export const baseConfig = {
   context: cwd,
   entry: {
     main: './src'
@@ -64,6 +95,8 @@ export const baseConfig = new Config().merge({
     path: path.join(cwd, 'build'),
     filename: 'bundle.js'
   }
-}, jsConfig, cssConfig)
+}
 
-export default baseConfig
+export const config = new Config().merge(baseConfig, jsConfig, cssConfig, imagesConfig)
+
+export default config

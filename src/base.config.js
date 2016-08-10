@@ -17,8 +17,15 @@ const jsTest = /\.js$/
 
 const config = {
   context: cwd,
+  entry: {
+    main: './src'
+  },
   resolve: {
     root: [srcDir, nodeModulesDir]
+  },
+  output: {
+    path: path.join(cwd, 'build'),
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -28,17 +35,17 @@ const config = {
         loader: 'babel',
         cacheDirectory: true,
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react', 'stage-0']
         }
       },
       {
         test: cssTest,
-        exclude: modulePathsTest,
+        include: srcDir,
         loaders: ['style', 'css', 'postcss']
       },
       {
         test: scssTest,
-        exclude: modulePathsTest,
+        include: srcDir,
         loaders: ['style', 'css', 'postcss', 'sass']
       }
     ]

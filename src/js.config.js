@@ -17,3 +17,5 @@ export const jsConfig = {
     ]
   }
 }
+
+export default jsConfig

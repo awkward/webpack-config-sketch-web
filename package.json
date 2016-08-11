@@ -1,6 +1,6 @@
 {
   "name": "@awkward/webpack-config-sketch-web",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -33,16 +33,16 @@
     "eslint-config-standard": "^5.3.5",
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-standard": "^2.0.0",
-    "webpack-config": "^6.1.2"
+    "webpack-merge": "^0.14.1"
   },
   "peerDependencies": {
     "babel-preset-stage-0": "^6.x"
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "babel -d lib src",
+    "build": "babel -d lib config",
     "build:watch": "npm run build -- --watch",
-    "lint": "eslint ./src",
+    "lint": "eslint ./config",
     "lint:fix": "npm run lint -- --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build"

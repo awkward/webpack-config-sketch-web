@@ -1,4 +1,5 @@
-import { modulePathsTest } from './helpers'
+import webpack from 'webpack'
+import { modulePathsTest, isProd } from './helpers'
 
 const jsTest = /\.js$/
 
@@ -17,6 +18,18 @@ function createConfig (conf) {
         }
       ]
     }
+  }
+
+  if (isProd) {
+    config.plugins = [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          unused: true,
+          dead_code: true,
+          warnings: false
+        }
+      })
+    ]
   }
 
   return config

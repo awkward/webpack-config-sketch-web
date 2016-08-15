@@ -10,7 +10,7 @@ export const MODULES_DIR = path.resolve(ROOT, 'node_modules')
 // Env
 
 const env = process.env.NODE_ENV || 'development'
-export const isDev = env === 'development'
+export const isDev = env !== 'production'
 export const isProd = env === 'production'
 
 // Regexes

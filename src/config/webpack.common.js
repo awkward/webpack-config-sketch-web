@@ -1,7 +1,7 @@
 import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
-import { ROOT, SRC_DIR, MODULES_DIR } from './helpers'
+import { ROOT, SRC_DIR, MODULES_DIR } from '../helpers'
 import createAssetsConfig from './webpack.assets'
 import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'

@@ -6,7 +6,7 @@ function createConfig (conf) {
   const commonConfig = createCommonConfig(conf)
 
   const config = {
-    entry: ['webpack-hot-middleware/client', './src'],
+    entry: ['./src', 'webpack-hot-middleware/client'],
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()

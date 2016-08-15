@@ -1,7 +1,7 @@
 import autoprefixer from 'autoprefixer'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import inlineSvg from 'postcss-inline-svg'
-import { SRC_DIR, isProd } from './helpers'
+import { SRC_DIR, isProd } from '../helpers'
 
 const cssTest = /^((?!\.module).)*\.css$/
 const scssTest = /^((?!\.module).)*\.scss$/

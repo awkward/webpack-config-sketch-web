@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import { modulePathsTest, isProd } from './helpers'
+import { modulePathsTest, isProd, isDev } from '../helpers'
 
 const jsTest = /\.js$/
 
@@ -13,7 +13,7 @@ function createConfig (conf) {
           loader: 'babel',
           cacheDirectory: true,
           query: {
-            presets: ['es2015', 'react', 'stage-0']
+            presets: ['es2015', 'react', 'stage-0'].concat(isDev ? ['react-hmre'] : [])
           }
         }
       ]
@@ -26,7 +26,8 @@ function createConfig (conf) {
         compress: {
           unused: true,
           dead_code: true,
-          warnings: false
+          warnings: false,
+          screw_ie8: true
         }
       })
     ]

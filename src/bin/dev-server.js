@@ -4,9 +4,9 @@ import express from 'express'
 import webpack from 'webpack'
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import WebpackHotMiddleware from 'webpack-hot-middleware'
-import _config from '../index'
+import { ROOT } from '../helpers'
 
-const webpackConfig = _config.webpack.dev()
+const webpackConfig = require(path.join(ROOT, 'webpack.config.js'))
 const app = express()
 const compiler = webpack(webpackConfig)
 

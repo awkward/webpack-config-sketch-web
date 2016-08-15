@@ -2,7 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
-import { ROOT, SRC_DIR, MODULES_DIR } from '../helpers'
+import { ROOT, SRC_DIR, MODULES_DIR, isDev } from '../helpers'
 import createAssetsConfig from './webpack.assets'
 import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'
@@ -16,9 +16,7 @@ function createConfig (conf = {}) {
 
   const config = {
     context: ROOT,
-    entry: {
-      main: './src'
-    },
+    entry: './src',
     resolve: {
       root: [SRC_DIR, MODULES_DIR]
     },
@@ -49,6 +47,14 @@ function createConfig (conf = {}) {
 
   if (conf.globals) {
     config.plugins.push(new webpack.DefinePlugin(conf.globals))
+  }
+
+  if (isDev) {
+    config.entry = ['./src', 'webpack-hot-middleware/client']
+    config.plugins.push(...[
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin()
+    ])
   }
 
   return smart(assetsConfig, scriptsConfig, stylesConfig, config)

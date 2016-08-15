@@ -11,9 +11,9 @@ function createConfig (conf) {
           test: jsTest,
           exclude: modulePathsTest,
           loader: 'babel',
-          cacheDirectory: true,
           query: {
-            presets: ['es2015', 'react', 'stage-0'].concat(isDev ? ['react-hmre'] : [])
+            presets: ['es2015', 'react', 'stage-0'].concat(isDev ? ['react-hmre'] : []),
+            cacheDirectory: true
           }
         }
       ]

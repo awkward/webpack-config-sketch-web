@@ -4,6 +4,16 @@ import { modulePathsTest, isProd, isDev } from '../helpers'
 const jsTest = /\.js$/
 
 function createConfig (conf) {
+  const babelQuery = {
+    presets: [
+      'es2015',
+      'react',
+      'stage-0'
+    ].concat(isDev ? ['react-hmre'] : []),
+    plugins: ['transform-runtime'],
+    cacheDirectory: true
+  }
+
   const config = {
     module: {
       loaders: [
@@ -11,10 +21,7 @@ function createConfig (conf) {
           test: jsTest,
           exclude: modulePathsTest,
           loader: 'babel',
-          query: {
-            presets: ['es2015', 'react', 'stage-0'].concat(isDev ? ['react-hmre'] : []),
-            cacheDirectory: true
-          }
+          query: babelQuery
         }
       ]
     }

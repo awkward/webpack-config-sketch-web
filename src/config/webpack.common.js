@@ -1,4 +1,5 @@
 import path from 'path'
+import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
 import { ROOT, SRC_DIR, MODULES_DIR } from '../helpers'
@@ -25,7 +26,15 @@ function createConfig (conf) {
       path: path.join(ROOT, 'build'),
       filename: 'bundle.js'
     },
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json'
+      }
+    ],
     plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.optimize.DedupePlugin(),
       new HtmlWebpackPlugin({
         template: templateDir,
         hash: false,

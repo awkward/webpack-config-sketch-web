@@ -2,8 +2,8 @@ import autoprefixer from 'autoprefixer'
 import inlineSvg from 'postcss-inline-svg'
 import { SRC_DIR } from './helpers'
 
-const cssTest = /^((?!\.module).)*css$/
-const scssTest = /^((?!\.module).)*scss$/
+const cssTest = /^((?!\.module).)*\.css$/
+const scssTest = /^((?!\.module).)*\.scss$/
 const cssModuleTest = /\.module.css$/
 const scssModuleTest = /\.module.scss$/
 

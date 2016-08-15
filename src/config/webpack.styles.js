@@ -51,11 +51,7 @@ function createConfig (conf) {
     }
   }
 
-  config.plugins = [
-    new ExtractTextPlugin('styles.css')
-  ]
-
-  console.log(isProd, config.module.loaders)
+  config.plugins = isProd ? [new ExtractTextPlugin('styles.css')] : []
 
   return config
 }

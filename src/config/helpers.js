@@ -9,9 +9,9 @@ export const MODULES_DIR = path.resolve(ROOT, 'node_modules')
 
 // Env
 
-const env = process.env.NODE_ENV || 'production'
+const env = process.env.NODE_ENV || 'development'
 export const isDev = env === 'development'
-export const isProd = env === 'production' || 'staging'
+export const isProd = env === 'production'
 
 // Regexes
 

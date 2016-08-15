@@ -21,7 +21,20 @@ function createConfig (conf) {
           test: jsTest,
           exclude: modulePathsTest,
           loader: 'babel',
-          query: babelQuery
+          query: {
+            presets: [
+              'es2015',
+              'react',
+              'stage-0'
+            ],
+            plugins: ['transform-runtime'],
+            cacheDirectory: true,
+            env: {
+              development: {
+                presets: ['react-hmre']
+              }
+            }
+          }
         }
       ]
     }

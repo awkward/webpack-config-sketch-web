@@ -9,7 +9,7 @@ import createStylesConfig from './webpack.styles'
 
 const templateDir = `${ROOT}/.webpack/index.html`
 
-function createConfig (conf) {
+function createConfig (conf = {}) {
   const assetsConfig = createAssetsConfig(conf)
   const scriptsConfig = createScriptsConfig(conf)
   const stylesConfig = createStylesConfig(conf)
@@ -45,6 +45,10 @@ function createConfig (conf) {
         }
       })
     ]
+  }
+
+  if (conf.globals) {
+    config.plugins.push(new webpack.DefinePlugin(conf.globals))
   }
 
   return smart(assetsConfig, scriptsConfig, stylesConfig, config)

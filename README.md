@@ -2,7 +2,9 @@
 
 ## Installation
 
-`npm i -D @awkward/webpack-config-sketch-web`
+```
+npm i -D @awkward/webpack-config-sketch-web
+```
 
 ## Setup
 

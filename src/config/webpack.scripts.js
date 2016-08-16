@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import { modulePathsTest, isProd, isDev } from '../helpers'
+import { modulePathsTest, isProd } from '../helpers'
 
 const jsTest = /\.js$/
 
@@ -15,7 +15,8 @@ function createConfig (conf) {
             presets: [
               'es2015',
               'react',
-              'stage-0'
+              'stage-0',
+              'babel-plugin-ramda'
             ],
             plugins: ['transform-runtime'],
             cacheDirectory: true,

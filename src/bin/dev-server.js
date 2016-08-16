@@ -1,3 +1,4 @@
+import 'babel-register'
 import path from 'path'
 import express from 'express'
 import webpack from 'webpack'

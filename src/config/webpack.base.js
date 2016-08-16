@@ -2,27 +2,25 @@ import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
-import { ROOT, SRC_DIR, MODULES_DIR, isDev } from '../helpers'
+import { ROOT, SRC_DIR, MODULES_DIR, isDev, isProd } from '../helpers'
 import createAssetsConfig from './webpack.assets'
 import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'
+import createHotConfig from './webpack.hot'
 
 const templateDir = `${ROOT}/.webpack/index.html`
 
 function createConfig (conf = {}) {
-  const assetsConfig = createAssetsConfig(conf)
-  const scriptsConfig = createScriptsConfig(conf)
-  const stylesConfig = createStylesConfig(conf)
-
   const config = {
     context: ROOT,
-    entry: conf.in || './src',
+    entry: Array.isArray(conf.in) ? conf.in : [conf.in],
     resolve: {
       root: [SRC_DIR, MODULES_DIR]
     },
     output: {
-      path: path.join(ROOT, conf.out), // path.join(ROOT, 'build'),
-      filename: 'bundle.js'
+      path: path.join(ROOT, conf.out),
+      filename: 'bundle.js',
+      publicPath: '/'
     },
     loaders: [
       {
@@ -31,8 +29,7 @@ function createConfig (conf = {}) {
       }
     ],
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
-      // new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.DedupePlugin(),
       new HtmlWebpackPlugin({
         template: conf.template ? path.join(ROOT, conf.template) : templateDir,
         hash: false,
@@ -49,20 +46,12 @@ function createConfig (conf = {}) {
     config.plugins.push(new webpack.DefinePlugin(conf.globals))
   }
 
-  if (isDev && conf.hot) {
-    if (Array.isArray(conf.in)) {
-      config.entry = [...conf.in, 'webpack-hot-middleware/client']
-    } else {
-      config.entry = [conf.in, 'webpack-hot-middleware/client']
-    } // TODO: entry can be an object
+  const assetsConfig = createAssetsConfig(conf)
+  const scriptsConfig = createScriptsConfig(conf)
+  const stylesConfig = createStylesConfig(conf)
+  const hotConfig = createHotConfig(conf, config)
 
-    config.plugins.push(...[
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
-    ])
-  }
-
-  return smart(assetsConfig, scriptsConfig, stylesConfig, config)
+  return conf.hot ? smart(assetsConfig, scriptsConfig, stylesConfig, hotConfig, config) : smart(assetsConfig, scriptsConfig, stylesConfig, config)
 }
 
 export default createConfig

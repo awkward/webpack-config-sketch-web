@@ -29,6 +29,7 @@ function createConfig (conf = {}) {
       }
     ],
     plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.DedupePlugin(),
       new HtmlWebpackPlugin({
         template: conf.template ? path.join(ROOT, conf.template) : templateDir,
@@ -43,7 +44,7 @@ function createConfig (conf = {}) {
   }
 
   if (conf.globals) {
-    config.plugins.push(new webpack.DefinePlugin(conf.globals))
+    config.plugins.unshift(new webpack.DefinePlugin(conf.globals))
   }
 
   const assetsConfig = createAssetsConfig(conf)

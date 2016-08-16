@@ -16,12 +16,12 @@ function createConfig (conf = {}) {
 
   const config = {
     context: ROOT,
-    entry: './src',
+    entry: conf.in || './src',
     resolve: {
       root: [SRC_DIR, MODULES_DIR]
     },
     output: {
-      path: path.join(ROOT, 'build'),
+      path: path.join(ROOT, conf.out), // path.join(ROOT, 'build'),
       filename: 'bundle.js'
     },
     loaders: [
@@ -32,9 +32,9 @@ function createConfig (conf = {}) {
     ],
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.optimize.DedupePlugin(),
+      // new webpack.optimize.DedupePlugin(),
       new HtmlWebpackPlugin({
-        template: templateDir,
+        template: conf.template ? path.join(ROOT, conf.template) : templateDir,
         hash: false,
         filename: 'index.html',
         inject: 'body',
@@ -49,8 +49,13 @@ function createConfig (conf = {}) {
     config.plugins.push(new webpack.DefinePlugin(conf.globals))
   }
 
-  if (isDev) {
-    config.entry = ['./src', 'webpack-hot-middleware/client']
+  if (isDev && conf.hot) {
+    if (Array.isArray(conf.in)) {
+      config.entry = [...conf.in, 'webpack-hot-middleware/client']
+    } else {
+      config.entry = [conf.in, 'webpack-hot-middleware/client']
+    } // TODO: entry can be an object
+
     config.plugins.push(...[
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()

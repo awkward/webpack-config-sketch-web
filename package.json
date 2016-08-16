@@ -1,6 +1,6 @@
 {
   "name": "@awkward/webpack-config-sketch-web",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -31,7 +31,9 @@
     "svg-inline-loader": "^0.6.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-hot-middleware": "^2.12.2"
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.12.2",
+    "webpack-merge": "^0.14.1"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
@@ -40,10 +42,7 @@
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.2",
-    "webpack-merge": "^0.14.1"
+    "gulp-babel": "^6.1.2"
   },
   "peerDependencies": {
     "babel-preset-stage-0": "^6.5",

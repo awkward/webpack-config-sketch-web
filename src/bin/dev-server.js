@@ -22,11 +22,12 @@ app.use('/public', express.static('public'))
 
 app.get('*', function (req, res) {
   fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
-    if (err) {
-      res.sendStatus(404)
-    } else {
-      res.send(file.toString())
-    }
+    // if (err) {
+    //   res.sendStatus(404)
+    // } else {
+    //   res.send(file.toString())
+    // }
+    res.send(file.toString())
   })
 })
 

@@ -26,3 +26,13 @@ export function fileExists (filePath) {
     return false
   }
 }
+
+
+// Default config
+
+export const defaultConfig = {
+  in: './src',
+  out: './dist',
+  hot: true,
+  template: './src/index.html'
+}

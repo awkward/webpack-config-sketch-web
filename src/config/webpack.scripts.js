@@ -15,8 +15,7 @@ function createConfig (conf) {
             presets: [
               'es2015',
               'react',
-              'stage-0',
-              'babel-plugin-ramda'
+              'stage-0'
             ],
             plugins: ['transform-runtime'],
             cacheDirectory: true,

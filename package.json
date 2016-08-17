@@ -1,7 +1,7 @@
 {
   "name": "@awkward/webpack-config-sketch-web",
   "version": "0.0.15",
-  "description": "",
+  "description": "Shared Webpack config for Sketch Web projects",
   "main": "index.js",
   "dependencies": {
     "autoprefixer": "^6.4.0",
@@ -60,6 +60,6 @@
     "prepublish": "npm run build",
     "gulp": "./node_modules/gulp/bin/gulp.js"
   },
-  "author": "",
+  "author": "Timon van Spronsen <timon@awkward.co>",
   "license": "ISC"
 }

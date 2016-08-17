@@ -2,7 +2,7 @@ import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
-import { ROOT, SRC_DIR, MODULES_DIR, isDev, isProd } from '../helpers'
+import { ROOT, SRC_DIR, MODULES_DIR, defaultConfig } from '../helpers'
 import createAssetsConfig from './webpack.assets'
 import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'
@@ -10,8 +10,10 @@ import createHotConfig from './webpack.hot'
 
 const templateDir = `${ROOT}/.webpack/index.html`
 
-function createConfig (conf = {}) {
-  const config = {
+function createConfig (conf) {
+  conf = Object.assign({}, defaultConfig, conf)
+
+  const baseConfig = {
     context: ROOT,
     entry: Array.isArray(conf.in) ? conf.in : [conf.in],
     resolve: {
@@ -44,15 +46,17 @@ function createConfig (conf = {}) {
   }
 
   if (conf.globals) {
-    config.plugins.unshift(new webpack.DefinePlugin(conf.globals))
+    baseConfig.plugins.unshift(new webpack.DefinePlugin(conf.globals))
   }
 
   const assetsConfig = createAssetsConfig(conf)
   const scriptsConfig = createScriptsConfig(conf)
   const stylesConfig = createStylesConfig(conf)
-  const hotConfig = createHotConfig(conf, config)
+  const hotConfig = createHotConfig(conf, baseConfig)
 
-  return conf.hot ? smart(assetsConfig, scriptsConfig, stylesConfig, hotConfig, config) : smart(assetsConfig, scriptsConfig, stylesConfig, config)
+  return conf.hot
+    ? smart(assetsConfig, scriptsConfig, stylesConfig, hotConfig, baseConfig)
+    : smart(assetsConfig, scriptsConfig, stylesConfig, baseConfig)
 }
 
 export default createConfig

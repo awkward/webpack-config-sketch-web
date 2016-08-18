@@ -54,7 +54,7 @@ function createConfig (conf) {
       loaders: extractStylesLoaders
     },
     plugins: [
-      new ExtractTextPlugin('[name].[contenthash].css', {
+      new ExtractTextPlugin('[name].[contenthash:8].css', {
         allChunks: true
       })
     ]

@@ -2,11 +2,13 @@ import path from 'path'
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { smart } from 'webpack-merge'
-import { ROOT, SRC_DIR, MODULES_DIR, defaultConfig } from '../helpers'
+import { ROOT, SRC_DIR, MODULES_DIR, defaultConfig, isDev } from '../helpers'
 import createAssetsConfig from './webpack.assets'
 import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'
 import createHotConfig from './webpack.hot'
+
+const ensureArray = (a) => Array.isArray(a) ? a : [a]
 
 function createConfig (conf) {
   conf = Object.assign({}, defaultConfig, conf)
@@ -15,7 +17,7 @@ function createConfig (conf) {
     // Don't attempt to continue if there are any errors.
     bail: true,
     context: ROOT,
-    entry: Array.isArray(conf.in) ? conf.in : [conf.in],
+    entry: [require.resolve('./polyfills.js')].concat(ensureArray(conf.in)),
     resolve: {
       root: [SRC_DIR, MODULES_DIR]
     },
@@ -33,7 +35,7 @@ function createConfig (conf) {
     ],
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.optimize.DedupePlugin(),
+      // new webpack.optimize.DedupePlugin(), // Disabled for now because it causes problems
       new HtmlWebpackPlugin({
         template: conf.template ? path.join(ROOT, conf.template) : path.join(ROOT, 'src/index.html'),
         hash: false,
@@ -55,7 +57,7 @@ function createConfig (conf) {
   const stylesConfig = createStylesConfig(conf)
   const hotConfig = createHotConfig(conf, baseConfig)
 
-  return conf.hot
+  return (isDev && conf.hot)
     ? smart(assetsConfig, scriptsConfig, stylesConfig, hotConfig, baseConfig)
     : smart(assetsConfig, scriptsConfig, stylesConfig, baseConfig)
 }

@@ -34,5 +34,6 @@ export const defaultConfig = {
   in: './src',
   out: './dist',
   hot: true,
-  template: './src/index.html'
+  template: './src/index.html',
+  babel: {}
 }

@@ -13,7 +13,6 @@ function createConfig (conf) {
       require.resolve('babel-preset-stage-0'),
       require.resolve('babel-preset-react')
     ],
-    plugins: [require.resolve('babel-plugin-transform-runtime')],
     cacheDirectory: true,
     env: {
       development: {

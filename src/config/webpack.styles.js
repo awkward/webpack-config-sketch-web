@@ -2,6 +2,7 @@ import autoprefixer from 'autoprefixer'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import inlineSvg from 'postcss-inline-svg'
 import { isProd } from '../helpers'
+import { smart } from 'webpack-merge'
 
 const cssTest = /^((?!\.module).)*\.css$/
 const scssTest = /^((?!\.module).)*\.scss$/
@@ -28,8 +29,9 @@ const cssLoaders = [
 ]
 
 // Extract styles to separate .css bundle in production
-const extractStyles = cssLoaders.map(loader => {
+const extractStylesLoaders = cssLoaders.map(loader => {
   const [first, ...rest] = loader.loaders
+
   return {
     test: loader.test,
     include: loader.include,
@@ -40,16 +42,25 @@ const extractStyles = cssLoaders.map(loader => {
 function createConfig (conf) {
   const config = {
     module: {
-      loaders: isProd ? extractStyles : cssLoaders
+      loaders: cssLoaders
     },
     postcss () {
       return [autoprefixer, inlineSvg]
     }
   }
 
-  config.plugins = isProd ? [new ExtractTextPlugin('styles.css')] : []
+  const prodConfig = {
+    module: {
+      loaders: extractStylesLoaders
+    },
+    plugins: [
+      new ExtractTextPlugin('[name].[contenthash].css', {
+        allChunks: true
+      })
+    ]
+  }
 
-  return config
+  return smart(config, isProd ? prodConfig : {})
 }
 
 export default createConfig

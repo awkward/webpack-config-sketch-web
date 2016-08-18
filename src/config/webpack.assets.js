@@ -9,14 +9,14 @@ function createConfig (conf) {
         {
           test: imagesTest,
           loaders: [
-            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'url?limit=10000&hash=sha512&digest=hex&name=[hash].[ext]',
             'image-webpack'
           ]
         },
         {
           test: svgTest,
           loaders: [
-            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'url?limit=10000&hash=sha512&digest=hex&name=[hash].[ext]',
             'image-webpack'
           ]
         },

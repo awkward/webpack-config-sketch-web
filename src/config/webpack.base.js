@@ -8,12 +8,12 @@ import createScriptsConfig from './webpack.scripts'
 import createStylesConfig from './webpack.styles'
 import createHotConfig from './webpack.hot'
 
-const templateDir = `${ROOT}/.webpack/index.html`
-
 function createConfig (conf) {
   conf = Object.assign({}, defaultConfig, conf)
 
   const baseConfig = {
+    // Don't attempt to continue if there are any errors.
+    bail: true,
     context: ROOT,
     entry: Array.isArray(conf.in) ? conf.in : [conf.in],
     resolve: {
@@ -21,7 +21,8 @@ function createConfig (conf) {
     },
     output: {
       path: path.join(ROOT, conf.out),
-      filename: 'bundle.js',
+      filename: '[name].[hash:8].js',
+      chunkFilename: '[name].[chunkhash:8].chunk.js',
       publicPath: '/'
     },
     loaders: [
@@ -34,7 +35,7 @@ function createConfig (conf) {
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.DedupePlugin(),
       new HtmlWebpackPlugin({
-        template: conf.template ? path.join(ROOT, conf.template) : templateDir,
+        template: conf.template ? path.join(ROOT, conf.template) : path.join(ROOT, 'src/index.html'),
         hash: false,
         filename: 'index.html',
         inject: 'body',

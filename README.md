@@ -35,6 +35,11 @@ export default createConfig({
   in: 'src/App.js',
 
   // Directory to output the build
-  out: 'dist'
+  out: 'dist',
+
+  // Custom Babel config, this config will be deeply merged with the default config
+  babel: {
+    plugins: ['transform-function-bind']
+  }
 })
 ```

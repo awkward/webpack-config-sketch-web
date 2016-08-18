@@ -1,9 +1,27 @@
 import webpack from 'webpack'
 import { modulePathsTest, isProd } from '../helpers'
+import deepmerge from 'deepmerge'
 
 const jsTest = /\.js$/
 
 function createConfig (conf) {
+  // Deep merge default Babel config with user's Babel config
+  const babelConfig = deepmerge({
+    babelrc: false,
+    presets: [
+      require.resolve('babel-preset-es2015'),
+      require.resolve('babel-preset-stage-0'),
+      require.resolve('babel-preset-react')
+    ],
+    plugins: [require.resolve('babel-plugin-transform-runtime')],
+    cacheDirectory: true,
+    env: {
+      development: {
+        presets: [require.resolve('babel-preset-react-hmre')]
+      }
+    }
+  }, conf.babel)
+
   const config = {
     module: {
       loaders: [
@@ -11,20 +29,7 @@ function createConfig (conf) {
           test: jsTest,
           exclude: modulePathsTest,
           loader: 'babel',
-          query: {
-            presets: [
-              'es2015',
-              'react',
-              'stage-0'
-            ],
-            plugins: ['transform-runtime'],
-            cacheDirectory: true,
-            env: {
-              development: {
-                presets: ['react-hmre']
-              }
-            }
-          }
+          query: babelConfig
         }
       ]
     }

@@ -3,6 +3,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import inlineSvg from 'postcss-inline-svg'
 import { isProd } from '../helpers'
 import { smart } from 'webpack-merge'
+import cssVariables from 'postcss-css-variables'
 
 const cssTest = /^((?!\.module).)*\.css$/
 const scssTest = /^((?!\.module).)*\.scss$/
@@ -45,7 +46,7 @@ function createConfig (conf) {
       loaders: cssLoaders
     },
     postcss () {
-      return [autoprefixer, inlineSvg]
+      return [autoprefixer, inlineSvg, cssVariables]
     }
   }
 
